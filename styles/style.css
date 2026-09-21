@@ -1,0 +1,253 @@
+/* Указываем box sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+    padding: 0;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+    list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+a {
+    text-decoration: none;
+    color: none;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+    max-width: 100%;
+    display: block;
+    max-height: 100%;
+}
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article > * + * {
+    margin-top: 1em;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* меняющиеся стили */
+html {
+    scroll-behavior: smooth;
+}
+.dark-theme {
+}
+body {
+    /* colors */
+    --text-primary: #2d2d2d;
+    --text-inverse: #e1d4c9;
+    --text-accent: #b0907a;
+
+    --bg-page: #e1d4c9;
+    --bg-container: #665f55;
+    --bg-overlay: #403f3dcc;
+
+    --border-primary: #c1b6ad;
+    --border-inverse: #665f55;
+
+    /* dark */
+
+    --dark-text-primary: #e1d4c9;
+    --dark-text-inverse: #e1d4c9;
+    --dark-text-accent: #b0907a;
+
+    --dark-bg-page: #292826;
+    --dark-bg-container: #403f3d;
+    --dark-bg-overlay: #292826cc;
+    --dark-bg-modal-control:#292826;
+    --dark-bg-modal:#403F3D;
+
+    --dark-border-primary: #665f55;
+    --dark-border-inverse: #c1b6ad;
+
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    font-family: "Inter";
+
+    color: var(--text-primary);
+    background: var(--bg-page);
+}
+body.dark-theme {
+    color: var(--dark-text-primary);
+    background: var(--dark-bg-page);
+}
+.wrapper {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 1380px;
+    padding: 0 10px;
+    margin: 0 auto;
+    height: 100%;
+}
+section {
+    padding: 50px 0;
+}
+h1 {
+    font-size: 72px;
+    line-height: 75.6px;
+    font-weight: 600;
+}
+h2 {
+    font-size: 60px;
+    line-height: 75px;
+    font-weight: 600;
+
+    margin-bottom: 40px;
+}
+
+/* components */
+
+.accent {
+    color: var(--text-accent);
+    font-style: italic;
+}
+.dark-theme .accent {
+    color: var(--dark-text-accent);
+}
+.underline-hover {
+    position: relative;
+}
+.underline-hover:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    content: "";
+    transition: transform 0.3s ease-out;
+    transform: scale(0);
+}
+.dark-theme .underline-hover:after {
+    background-color: var(--dark-text-primary);
+}
+.underline-hover:hover:after {
+    transform: scale(1);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    /* ширина для вертикального скролла */
+    height: 2px;
+    /* высота для горизонтального скролла */
+    background-color: #c0c9d3;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #464040;
+    border-radius: 9em;
+    /* box-shadow: inset 1px 1px 10px #f3faf7; */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #253861;
+}
+@media ((max-width: 1000px)) {
+    h1 {
+        font-size: 72px;
+        line-height: 75.6px;
+        font-weight: 600;
+    }
+    h2 {
+        font-size: 60px;
+        line-height: 75px;
+        font-weight: 600;
+
+        margin-bottom: 40px;
+    }
+}
+@media ((max-width: 570px)) {
+    h1 {
+        font-size: 42px;
+        line-height: 48.3px;
+        font-weight: 600;
+    }
+    h2 {
+        font-size: 32px;
+        line-height: 40px;
+        font-weight: 600;
+
+        margin-bottom: 40px;
+    }
+}
+@media ((max-width: 800px)) {
+    .container {
+        padding: 0 40px;
+    }
+}
+@media ((max-width: 570px)) {
+    .container {
+        padding: 0 16px;
+    }
+}
