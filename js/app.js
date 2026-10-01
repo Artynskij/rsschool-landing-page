@@ -65,8 +65,7 @@ function createModalContent(titleCard) {
         <h3>${productItem.name}</h3>
         <div class="modal-description">
         ${productItem.description}
-          Fragrant black coffee with Jameson Irish whiskey and whipped
-          milk
+         
         </div>
       </div>
       <div>
@@ -76,12 +75,13 @@ function createModalContent(titleCard) {
             <span>S</span>
             <span>${productItem.sizes.s.size}</span>
           </div>
-          <div cost=${productItem.sizes.m["add-price"]} class="cost switch-item">
-            <span>L</span>
-            <span>${productItem.sizes.m.size}</span>
-          </div>
+         
           <div cost=${productItem.sizes.l["add-price"]} class="cost switch-item">
             <span>M</span>
+            <span>${productItem.sizes.m.size}</span>
+          </div>
+           <div cost=${productItem.sizes.m["add-price"]} class="cost switch-item">
+            <span>L</span>
             <span>${productItem.sizes.l.size}</span>
           </div>
         </div>
