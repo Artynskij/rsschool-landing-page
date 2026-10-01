@@ -25,13 +25,14 @@ function createCardsItems() {
     const menuContentNode = body.querySelector(".menu-content");
     console.log();
     PRODUCTS.forEach((item) => {
-        const card = createCard(item);
+        const active = item.category === "coffee";
+        const card = createCard(item, active);
         menuContentNode.append(card);
     });
-    function createCard(card) {
+    function createCard(card, active) {
         const div = document.createElement("div");
         div.dataset.target = card.category;
-        div.className = `open-modal card-menu active`;
+        div.className = `open-modal card-menu ${active ? "active" : ""}`;
         const content = `       <div class="card-menu__img">
                                     <img
                                         src="${card.src}"
