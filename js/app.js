@@ -1,10 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const menuPage = document.querySelector("#menu-page");
     const mainPage = document.querySelector("#main-page");
-    let globCount = 0;
-    // setInterval(() => {
-    //   console.log(globCount++);
-    // }, 1000);
+
     burgerLogic();
     if (mainPage) {
         slider();
@@ -13,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (menuPage) {
+        createCardsItems();
         switchLogic();
         modal();
         checkLogic();
@@ -23,13 +21,44 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 const body = document.body;
 const scrollWidth = window.innerWidth - body.offsetWidth;
+function createCardsItems() {
+    const menuContentNode = body.querySelector(".menu-content");
+    console.log();
+    PRODUCTS.forEach((item) => {
+        const card = createCard(item);
+        menuContentNode.append(card);
+    });
+    function createCard(card) {
+        const div = document.createElement("div");
+        div.dataset.target = card.category;
+        div.className = `open-modal card-menu active`;
+        const content = `       <div class="card-menu__img">
+                                    <img
+                                        src="${card.src}"
+                                        alt="${card.name}"
+                                    />
+                                </div>
+                                <div class="card-menu__info">
+                                    <div class="card-menu__title">
+                                        ${card.name}
+                                    </div>
+                                    <div class="card-menu__subtitle">
+                                        ${card.description}
+                                    </div>
+                                    <div class="card-menu__price">$${card.price}</div>
+                                </div>
+                            `;
+        div.innerHTML = content;
+        return div;
+    }
+}
 
-function createModalContent(titleCard, src) {
+function createModalContent(titleCard) {
     const productItem = PRODUCTS.find((item) => item.name === titleCard);
 
     const modal = `
     <div class="modal-img">
-        <img src="${src}" alt="" />
+        <img src="${productItem.src}" alt="" />
     </div>
     <div class="modal-content">
       <div class="modal-title">
@@ -120,6 +149,7 @@ function modal() {
     const openModal = document.querySelectorAll(".open-modal");
     const modalOverlay = document.querySelector(".modal-overlay ");
     const modal = document.querySelector(".modal");
+
     openModal.forEach((item) => {
         item.addEventListener("click", (e) => {
             modal.classList.add("modal--visible");
@@ -128,8 +158,8 @@ function modal() {
             body.style.paddingRight = `${scrollWidth}px`;
             modal.innerHTML = createModalContent(
                 item.querySelector(".card-menu__title").outerText,
-                item.querySelector(".card-menu__img").querySelector("img").src,
             );
+            window.addEventListener("keydown", addKeydownListener);
             modal
                 .querySelector(".modal-close")
                 .addEventListener("click", modalClose);
@@ -141,17 +171,21 @@ function modal() {
     });
 
     modalOverlay.addEventListener("click", (e) => {
-        // console.log(e.target);
-
         if (e.target == modalOverlay) {
             modalClose();
         }
     });
+    function addKeydownListener(e) {
+        if (e.key === "Escape") {
+            modalClose();
+        }
+    }
     function modalClose() {
         modalOverlay.classList.remove("modal-overlay--visible");
         modal.classList.remove("modal--visible");
         body.style.overflow = "auto";
         body.style.paddingRight = "0px";
+        window.removeEventListener("keydown", addKeydownListener);
     }
 }
 
@@ -277,7 +311,7 @@ function slider() {
             state.slideActive++;
             state.positionWrapper = -(wrapper.clientWidth * state.slideActive);
         }
-        console.log(state.positionWrapper);
+        console.log(`work slider ${state.positionWrapper}`);
         wrapper.style.transform = `translate(${state.positionWrapper}px, 0)`;
 
         activeSlide(state.slideActive);
@@ -319,33 +353,40 @@ function burgerLogic() {
 
     burgerMenu.querySelectorAll(".underline-hover").forEach((item) => {
         item.addEventListener("click", () => {
-            burger.classList.remove("active");
-            burgerMenu.classList.remove("active");
-            body.style.overflow = "auto";
-            body.style.paddingRight = "0px";
+            closeBurger();
         });
     });
     burgerMenu.querySelector(".menu-link").addEventListener("click", () => {
+        closeBurger();
+    });
+    burger.addEventListener("click", () => {
+        console.log("burger 3");
+        if (burger.className.includes("active")) {
+            closeBurger();
+        } else {
+            openBurger();
+        }
+    });
+    function resizeWindow() {
+        if (window.innerWidth > 769) {
+            closeBurger();
+        }
+    }
+    function closeBurger() {
         burger.classList.remove("active");
         burgerMenu.classList.remove("active");
         body.style.overflow = "auto";
         body.style.paddingRight = "0px";
-    });
-    burger.addEventListener("click", () => {
-        if (burger.className.includes("active")) {
-            burger.classList.remove("active");
-            burgerMenu.classList.remove("active");
-            body.style.overflow = "auto";
-            body.style.paddingRight = "0px";
-        } else {
-            burger.classList.add("active");
-            burgerMenu.classList.add("active");
+        window.removeEventListener("resize", resizeWindow);
+    }
+    function openBurger() {
+        window.addEventListener("resize", resizeWindow);
+        burger.classList.add("active");
+        burgerMenu.classList.add("active");
 
-            body.style.overflow = "hidden";
-            body.style.paddingRight = `${scrollWidth}px`;
-            //   console.dir(window);
-        }
-    });
+        body.style.overflow = "hidden";
+        body.style.paddingRight = `${scrollWidth}px`;
+    }
 }
 function switchLogic() {
     const switchs = document.querySelectorAll(".switch");
@@ -469,7 +510,6 @@ function themeSwitcher() {
 function initialTheme() {
     const body = document.querySelector("body");
     const theme = localStorage.getItem("theme");
-    console.log(theme);
 
     if (theme === "dark") {
         body.classList.add("dark-theme");

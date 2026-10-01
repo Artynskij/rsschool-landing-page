@@ -1023,7 +1023,11 @@
 }
 .menu-section .container {
 }
-.menu-section h2 {
+.menu-section h1 {
+    font-size: 60px;
+    line-height: 75px;
+    font-weight: 600;
+    margin-bottom: 40px;
     text-align: center;
 }
 .menu-switch {
