@@ -372,14 +372,21 @@ function burgerLogic() {
             closeBurger();
         }
     }
+    function addKeydownListener(e) {
+        if (e.key === "Escape") {
+            closeBurger();
+        }
+    }
     function closeBurger() {
+        window.removeEventListener("keydown", addKeydownListener);
+        window.removeEventListener("resize", resizeWindow);
         burger.classList.remove("active");
         burgerMenu.classList.remove("active");
         body.style.overflow = "auto";
         body.style.paddingRight = "0px";
-        window.removeEventListener("resize", resizeWindow);
     }
     function openBurger() {
+        window.addEventListener("keydown", addKeydownListener);
         window.addEventListener("resize", resizeWindow);
         burger.classList.add("active");
         burgerMenu.classList.add("active");
